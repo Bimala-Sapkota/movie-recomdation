@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background-color: #000000; /* Black background */
+  color: white; /* White text for contrast */
+}
+
+.container {
+  background-color: #000000; /* Black background for the container */
+  padding: 20px; /* Some padding for the content */
+}
