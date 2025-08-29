@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import backgroundBanner from "../assets/background_banner.jpg"; // Ensure the correct path
 import { useNavigate } from "react-router";
+import { useAuthStore } from "../store/authStore";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signup, isLoading, error } = useAuthStore();
+
   {
     /* console.log(
     "Username:",
@@ -17,6 +20,17 @@ const SignUp = () => {
     password
   );  */
   }
+
+  const handledSignUp = async (e) => {
+    e.preventDefault();
+
+    try {
+      await signup(username, email, password);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className="bg-black min-h-screen bg-cover bg-center bg-no-repeat px-4 md:px-8 py-5"
@@ -27,7 +41,7 @@ const SignUp = () => {
       <div className="max-w-[450px] w-full bg-black bg-opacity-75 rounded px-8 py-14 mx-auto mt-8">
         <h1 className="text-3xl font-medium text-white mb-7">Sign Up</h1>
 
-        <form className="flex flex-col space-y-4">
+        <form onSubmit={handledSignUp} className="flex flex-col space-y-4">
           <input
             type="text"
             value={username}
@@ -49,8 +63,12 @@ const SignUp = () => {
             placeholder="Enter your password"
             className="w-full h-[50px] bg-[#333] text-white px-5 rounded text-base"
           />
+
+          {error && <p className="text-red-500"> {error}</p>}
+
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full h-[50px] bg-red-500 text-white rounded hover:bg-red-600"
           >
             Sign Up

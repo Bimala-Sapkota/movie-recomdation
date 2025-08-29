@@ -1,12 +1,30 @@
 import { React, useState } from "react";
 import backgroundBanner from "../assets/background_banner.jpg"; // Correct import
 import { useNavigate } from "react-router";
+import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  console.log("Username:", username, "\n Password:", password);
+
+  const { login, isLoading, error } = useAuthStore();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!username || !password) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    try {
+      const { message } = await login(username, password);
+      toast.success(message);
+      navigate("/");
+    } catch (error) {
+      toast.error("Login failed: " + error.message); // Show error to user
+    }
+  };
 
   return (
     <div
@@ -18,7 +36,7 @@ const SignIn = () => {
       <div className="max-w-[450px] w-full bg-black bg-opacity-75 rounded px-8 py-14 mx-auto mt-8">
         <h1 className="text-3xl font-medium text-white mb-7">Sign In</h1>
 
-        <form className="flex flex-col space-y-4">
+        <form onSubmit={handleLogin} className="flex flex-col space-y-4">
           <input
             type="text"
             value={username}
@@ -33,7 +51,12 @@ const SignIn = () => {
             placeholder="password"
             className="w-full h-[50px] bg-[#333] text-white px-5 rounded text-base"
           />
-          <button className="w-full h-[50px] bg-red-500 text-white rounded hover:opacity-90 text-base cursor-pointer">
+          {error && <p className="text-red-500"> {error}</p>}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full h-[50px] bg-red-500 text-white rounded hover:opacity-90 text-base cursor-pointer"
+          >
             Sign In
           </button>
         </form>

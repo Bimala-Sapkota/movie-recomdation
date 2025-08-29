@@ -2,8 +2,10 @@ import { Search } from "lucide-react";
 import { Link } from "react-router";
 import React from "react";
 import Logo from "../assets/logo1.jpg";
+import { useAuthStore } from "../store/authStore";
 
 const Navbar = () => {
+  const { user } = useAuthStore();
   return (
     <nav className="bg-black text-gray-200 flex justify-between items-center p-4 h-20 text-sm md:text-[15px] font-medium text-nowrap">
       <Link to={"/"}>
@@ -35,11 +37,16 @@ const Navbar = () => {
         <button className="bg-red-500 text-white px-5 py-2 rounded">
           Get AI Movie Picks
         </button>
-        <Link to={"/signin"}>
-          <button className="border border-gray-500 text-white px-4 py-1 cursor-pointer">
-            Sign In
-          </button>
-        </Link>
+
+        {!user ? (
+          <Link to={"/signin"}>
+            <button className="border border-gray-500 text-white px-4 py-1 cursor-pointer">
+              Sign In
+            </button>
+          </Link>
+        ) : (
+          <div className="text-white">{user.username}</div>
+        )}
       </div>
     </nav>
   );
