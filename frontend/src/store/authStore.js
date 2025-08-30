@@ -23,12 +23,14 @@ export const useAuthStore = create((set) => ({
         email,
         password,
       });
+
       set({ user: response.data.user, isLoading: false });
     } catch (error) {
       set({
         isLoading: false,
-        error: error.response?.data?.message || "Error signing up",
+        error: error.response.data.message || "Error signing up",
       });
+
       throw error;
     }
   },
@@ -50,7 +52,7 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error.response?.data?.message || "Error logging in",
+        error: error.response.data.message || "Error logging in",
       });
       throw error;
     }
@@ -82,10 +84,12 @@ export const useAuthStore = create((set) => ({
         user: null,
         error: null,
       });
+
+      return { message };
     } catch (error) {
       set({
         isLoading: false,
-        error: error.response?.data?.message || "Error logging out",
+        error: error.response.data.message || "Error logging out",
       });
       throw error;
     }

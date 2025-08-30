@@ -73,7 +73,7 @@ app.post("/api/signup", async (req, res) => {
       });
 
       return res
-        .status(201)
+        .status(200)
         .json({ user: userDoc, message: "User created successfully" });
     }
   } catch (error) {
@@ -95,18 +95,20 @@ app.post("/api/login", async (req, res) => {
     }
 
     // JWT token generation
-    const token = jwt.sign(
-      { id: userDoc._id }, // Payload
-      process.env.JWT_SECRET, // Ensure this is defined in your .env
-      { expiresIn: "7d" } // Options
-    );
+    if (userDoc) {
+      const token = jwt.sign(
+        { id: userDoc._id }, // Payload
+        process.env.JWT_SECRET, // Ensure this is defined in your .env
+        { expiresIn: "7d" } // Options
+      );
 
-    // Send the token back to the client in a cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
+      // Send the token back to the client in a cookie
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+    }
 
     return res
       .status(200)
