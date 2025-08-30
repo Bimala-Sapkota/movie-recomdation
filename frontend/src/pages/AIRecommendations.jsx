@@ -97,7 +97,8 @@ Recommend 10 ${inputs.mood.toLowerCase()} ${
       inputs.decade
     } with a runtime between ${
       inputs.length
-    }. Return the list as plain JSON array of movie titles only, No extra text, no explanations, no code blocks, no markdown, just the JSON array.
+    }. Return the list as plain JSON array of movie titles only, No extra text, 
+    no explanations, no code blocks, no markdown, just the JSON array.
     example:
 [
   "Movie Title 1",
@@ -132,7 +133,10 @@ Recommend 10 ${inputs.mood.toLowerCase()} ${
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#181818] via-[#232323] to-[#181818] relative overflow-hidden">
+    <div
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br
+     from-[#181818] via-[#232323] to-[#181818] relative overflow-hidden"
+    >
       {!(recommendation && recommendation.length > 0) && (
         <img
           src="/background_banner.jpg"
@@ -148,8 +152,14 @@ Recommend 10 ${inputs.mood.toLowerCase()} ${
           <RecommendedMovies movieTitles={recommendation} />
         </div>
       ) : (
-        <div className="relative w-full max-w-md mx-auto rounded-2xl bg-[#181818]/90 shadow-2xl border border-[#333] px-8 py-10 mt-4 flex flex-col items-center min-h-[480px]">
-          <h2 className="text-3xl font-extrabold mb-8 text-center text-white tracking-tight drop-shadow-lg">
+        <div
+          className="relative w-full max-w-md mx-auto rounded-2xl bg-[#181818]/90 shadow-2xl border
+         border-[#333] px-8 py-10 mt-4 flex flex-col items-center min-h-[480px]"
+        >
+          <h2
+            className="text-3xl font-extrabold mb-8 text-center text-white tracking-tight 
+          drop-shadow-lg"
+          >
             AI Movie Recommendation
           </h2>
 
@@ -177,11 +187,12 @@ Recommend 10 ${inputs.mood.toLowerCase()} ${
                   <button
                     key={opt}
                     onClick={() => handleOption(opt)}
-                    className={`w-full py-3 rounded-xl border-2 transition font-semibold text-base flex items-center justify-center gap-2 focus:outline-none focus:ring-2 active:scale-95 duration-150 focus:ring-[#e50914] shadow-sm ${
-                      inputs[steps[step].name] == opt
-                        ? "bg-[#e50914] border-[#e50914] text-white shadow-lg"
-                        : "bg-[#232323] border-[#444] text-white hover:bg-[#e50914]/80 hover:border-[#e50914]"
-                    }`}
+                    className={`w-full py-3 rounded-xl border-2 transition font-semibold text-base 
+                      flex items-center justify-center gap-2 focus:outline-none focus:ring-2 active:scale-95 duration-150 focus:ring-[#e50914] shadow-sm ${
+                        inputs[steps[step].name] == opt
+                          ? "bg-[#e50914] border-[#e50914] text-white shadow-lg"
+                          : "bg-[#232323] border-[#444] text-white hover:bg-[#e50914]/80 hover:border-[#e50914]"
+                      }`}
                   >
                     {opt}
                   </button>
@@ -194,7 +205,8 @@ Recommend 10 ${inputs.mood.toLowerCase()} ${
                 type="button"
                 onClick={handleBack}
                 disabled={step == 0}
-                className="px-6 py-2 rounded-lg font-semibold transition border-2 border-[#444] text-white bg-[#181818] hover:bg-[#232323]"
+                className="px-6 py-2 rounded-lg font-semibold transition border-2 
+                border-[#444] text-white bg-[#181818] hover:bg-[#232323]"
               >
                 Back
               </button>
