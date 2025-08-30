@@ -2,7 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-const API_URL = "https://movie-recomdation.onrender.com";
+
+const API_URL = "https://movie-recomdation.onrender.com/api";
 
 export const useAuthStore = create((set) => ({
   // Initial state
@@ -63,7 +64,8 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       set({
         fetchingUser: false,
-        error: error.response?.data?.message || "Error fetching user",
+        error: null,
+        user: null,
       });
       throw error;
     }
