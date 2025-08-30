@@ -5,20 +5,19 @@ axios.defaults.withCredentials = true;
 const API_URL = "http://localhost:5000/api";
 
 export const useAuthStore = create((set) => ({
-  //initial state
+  // Initial state
   user: null,
   isLoading: false,
   error: null,
   message: null,
   fetchingUser: true,
 
-  //functions
-
+  // Functions
   signup: async (username, email, password) => {
     set({ isLoading: true, message: null });
 
     try {
-      const response = await axios.post(`${API_URL}/api/signup`, {
+      const response = await axios.post(`${API_URL}/signup`, {
         username,
         email,
         password,
@@ -27,7 +26,7 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error.response.data.message || "Error Signing up",
+        error: error.response?.data?.message || "Error signing up",
       });
       throw error;
     }
@@ -50,7 +49,7 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error.response.data.message || "Error logging up",
+        error: error.response?.data?.message || "Error logging in",
       });
       throw error;
     }
@@ -63,8 +62,28 @@ export const useAuthStore = create((set) => ({
       set({ user: response.data.user, fetchingUser: false });
     } catch (error) {
       set({
+        fetchingUser: false,
+        error: error.response?.data?.message || "Error fetching user",
+      });
+      throw error;
+    }
+  },
+
+  logout: async () => {
+    set({ isLoading: true, error: null, message: null });
+    try {
+      const response = await axios.post(`${API_URL}/logout`);
+      const { message } = response.data;
+      set({
+        message,
         isLoading: false,
-        error: error.response.data.message || "Error fetching user",
+        user: null,
+        error: null,
+      });
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Error logging out",
       });
       throw error;
     }

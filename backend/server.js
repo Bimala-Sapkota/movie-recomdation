@@ -75,8 +75,7 @@ app.post("/api/signup", async (req, res) => {
         .json({ user: userDoc, message: "User created successfully" });
     }
   } catch (error) {
-    console.error("Error during signup:", error);
-    return res.status(500).json({ message: "Internal server error." });
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -111,8 +110,8 @@ app.post("/api/login", async (req, res) => {
       .status(200)
       .json({ user: userDoc, message: "Logged in successfully" });
   } catch (error) {
-    console.error("Error logging in:", error.message);
-    return res.status(500).json({ message: "Internal server error." });
+    console.log("Error Logging in: ", error.message);
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -128,6 +127,10 @@ app.get("/api/fetch-user", async (req, res) => {
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
     // Find the user by ID and exclude the password from the response
     const userDoc = await User.findById(decoded.id).select("-password");
 
@@ -139,17 +142,17 @@ app.get("/api/fetch-user", async (req, res) => {
     // Send the user data in the response
     res.status(200).json({ user: userDoc });
   } catch (error) {
-    console.error("Error in fetching user:", error.message);
-    return res.status(500).json({ message: "Internal server error." });
+    console.log("Error in fetching user: ", error.message);
+    return res.status(400).json({ message: error.message });
   }
 });
 
 app.post("/api/logout", async (req, res) => {
   res.clearCookie("token");
-  res.status(200).json({ message: "logged out successfully" });
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
-app.listen(PORT, async () => {
-  await connectToDB(); // Ensure DB connection before starting the server
+app.listen(PORT, () => {
+  connectToDB(); // Ensure DB connection before starting the server
   console.log(`Server is running on http://localhost:${PORT}`);
 });

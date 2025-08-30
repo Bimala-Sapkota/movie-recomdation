@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import backgroundBanner from "../assets/background_banner.jpg"; // Correct import
+import backgroundBanner from "../assets/background_banner.jpg";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
