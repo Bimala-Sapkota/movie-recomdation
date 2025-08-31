@@ -20,9 +20,11 @@ const SignUp = () => {
     password
   );  */
   }
+  console.log("Auth Store:", useAuthStore.getState());
 
   const handledSignUp = async (e) => {
     e.preventDefault();
+    console.log(username, error, password);
 
     try {
       await signup(username, email, password);
@@ -69,13 +71,13 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full h-[50px] bg-red-500 text-white rounded hover:bg-red-600"
+            className="w-full bg-[#e50914] text-white py-2 rounded text-base hover:opacity-90 cursor-pointer"
           >
             Sign Up
           </button>
         </form>
-        <p className="text-gray-400 mt-4">
-          Already have an account?{" "}
+        <p className="text-gray-400 mt-10 text-sm">
+          Already have an account?
           <span
             onClick={() => navigate("/signin")}
             className="text-white font-medium cursor-pointer ml-2 hover:underline"

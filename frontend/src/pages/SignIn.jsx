@@ -13,16 +13,13 @@ const SignIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
+
     try {
       const { message } = await login(username, password);
       toast.success(message);
       navigate("/");
     } catch (error) {
-      toast.error("Login failed: " + error.message); // Show error to user
+      console.log(error); // Show error to user
     }
   };
 
@@ -53,9 +50,9 @@ const SignIn = () => {
           />
           {error && <p className="text-red-500"> {error}</p>}
           <button
-            type="submit"
+            type="button"
             disabled={isLoading}
-            className="w-full h-[50px] bg-red-500 text-white rounded hover:opacity-90 text-base cursor-pointer"
+            className="w-full  bg-red-500 text-white  py-2 rounded hover:opacity-90 text-base cursor-pointer"
           >
             Sign In
           </button>

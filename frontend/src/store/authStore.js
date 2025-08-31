@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = "https://movie-recomdation.onrender.com/api";
+const API_URL = "https://movie-recomdation.onrender.com";
 
 export const useAuthStore = create((set) => ({
   // Initial state
@@ -11,14 +11,13 @@ export const useAuthStore = create((set) => ({
   isLoading: false,
   error: null,
   message: null,
-  fetchingUser: true,
 
   // Functions
   signup: async (username, email, password) => {
-    set({ isLoading: true, message: null });
+    set({ isLoading: true, message: null, error: null });
 
     try {
-      const response = await axios.post(`${API_URL}/signup`, {
+      const response = await axios.post("http://localhost:5000/api/signup", {
         username,
         email,
         password,
@@ -31,6 +30,7 @@ export const useAuthStore = create((set) => ({
         error: error.response.data.message || "Error signing up",
       });
 
+      console.error("Signup error:", error); // Log the error for debugging
       throw error;
     }
   },
@@ -38,7 +38,7 @@ export const useAuthStore = create((set) => ({
   login: async (username, password) => {
     set({ isLoading: true, message: null, error: null });
     try {
-      const response = await axios.post(`${API_URL}/login`, {
+      const response = await axios.post("http://localhost:5000/api/login", {
         username,
         password,
       });
@@ -61,7 +61,7 @@ export const useAuthStore = create((set) => ({
   fetchUser: async () => {
     set({ fetchingUser: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/fetch-user`);
+      const response = await axios.get("http://localhost:5000/api/fetch-user");
       set({ user: response.data.user, fetchingUser: false });
     } catch (error) {
       set({
@@ -76,7 +76,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({ isLoading: true, error: null, message: null });
     try {
-      const response = await axios.post(`${API_URL}/logout`);
+      const response = await axios.post("http://localhost:5000/api/logout");
       const { message } = response.data;
       set({
         message,
